@@ -1,0 +1,5 @@
+docker -v
+docker ps --all
+docker run hello-world # run image without parameter
+docker run -d -p 9000:80 nginx # run image with detach mode
+docker run -p 9000:80 nginx # run image without detach mode. this will show anything process of nginx kub
