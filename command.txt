@@ -3,3 +3,37 @@ docker ps --all
 docker run hello-world # run image without parameter
 docker run -d -p 9000:80 nginx # run image with detach mode
 docker run -p 9000:80 nginx # run image without detach mode. this will show anything process of nginx kub
+
+docker ps # เช็คว่ามี container อะไร run อยู่
+docker run busybox ls # ส่ง command เข้าไป run แบบ linux
+docker exec -it ID_container sh # remote เข้าไปดูใน container
+docker rm ID_container # ลบ container
+
+docker logs ID_container # ดู log
+docker logs -f ID_container # ดู log แบบค้างไว้ ได้เห็น realtime
+
+docker images # ดู image ที่มี
+docker pull mysql:5.7 # โหลด image มาเก็บ 5.7 คือ version
+docker image rm busybox # ลบ image
+docker system prune # ลบของที่ไม่ได้ใช้ทิ้ง
+
+docker network create wordpress # สร้าง network
+docker network ls # ดู network ทั้งหมด
+docker network connect wordpress mysql # เอา container เข้า network
+docker network inspect wordpress # ดูรายละเอียดของ network
+docker run --name mysql --network wordpress -e MYSQL_ROOT_PASSWORD=1111 -d mysql:5.7 # --name ตั้งชื่อ, --network ระบุ network, -e ใส่ env
+
+docker volume create mysql_volume # สร้าง volume
+docker volume ls # ดู volume ทั้งหมด
+docker volume rm mysql_volume # ลบ volume
+docker run -d --name mysql02 -v mysql_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1111 mysql:5.7 # เก็บข้อมูลแบบ volume
+docker run -d --name mysql03 -v /path/on/host:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1111 mysql:5.7 # เก็บข้อมูลแบบ bind mount เอา folder ในเครื่องไปผูก
+
+docker-compose up # run
+docker-compose up -d # run แบบไม่ค้าง
+docker-compose ps # ดูสถานะ
+docker-compose down # ปิดและลบ
+
+docker build . -t mynodeapp # build image ของเราเอง
+docker build . -t mynodeapp:1.0 # build พร้อมตั้ง version
+docker run -p 3002:3000 mynodeapp # run image ที่ build เอง
